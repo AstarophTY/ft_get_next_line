@@ -6,16 +6,20 @@
 /*   By: sgil--de <sgil--de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 17:04:18 by sgil--de          #+#    #+#             */
-/*   Updated: 2025/11/17 12:57:44 by sgil--de         ###   ########.fr       */
+/*   Updated: 2025/11/17 13:38:49 by sgil--de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GET_NEXT_LINE
-# define FT_GET_NEXT_LINE
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdint.h>
+
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 32
+# endif
 
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
