@@ -6,7 +6,7 @@
 /*   By: sgil--de <sgil--de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 17:04:18 by sgil--de          #+#    #+#             */
-/*   Updated: 2025/11/17 13:38:49 by sgil--de         ###   ########.fr       */
+/*   Updated: 2025/11/17 17:29:58 by sgil--de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdint.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 32
+#  define BUFFER_SIZE 32
 # endif
 
 size_t	ft_strlen(const char *s);
@@ -26,5 +26,6 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
+char	*get_next_line(int fd);
 
 #endif
