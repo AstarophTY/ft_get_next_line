@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgil--de <sgil--de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 17:15:59 by sgil--de          #+#    #+#             */
-/*   Updated: 2025/11/19 16:48:45 by sgil--de         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:37:48 by sgil--de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*join_and_free(char *temp, char *readen, char *str)
 {
@@ -74,7 +74,7 @@ char	*return_line(char **str, char *line_read)
 
 char	*get_next_line(int fd)
 {
-	static char	*backup;
+	static char	*backup[1024];
 	char		*str;
 	char		*temp;
 	char		*line_read;
@@ -82,21 +82,21 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line_read = read_line(fd);
-	if (backup && line_read)
+	if (backup[fd] && line_read)
 	{
-		temp = backup;
-		backup = ft_strjoin(temp, line_read);
+		temp = backup[fd];
+		backup[fd] = ft_strjoin(temp, line_read);
 		free(temp);
 		free(line_read);
 	}
 	else if (line_read)
-		backup = line_read;
-	if (!backup || ft_strlen(backup) == 0)
+		backup[fd] = line_read;
+	if (!backup[fd] || ft_strlen(backup[fd]) == 0)
 	{
-		free(backup);
-		backup = NULL;
+		free(backup[fd]);
+		backup[fd] = NULL;
 		return (NULL);
 	}
-	backup = return_line(&str, backup);
+	backup[fd] = return_line(&str, backup[fd]);
 	return (str);
 }

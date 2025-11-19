@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgil--de <sgil--de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 17:16:47 by sgil--de          #+#    #+#             */
-/*   Updated: 2025/11/19 15:50:08 by sgil--de         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:02:40 by sgil--de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {
