@@ -12,37 +12,41 @@
 
 #include "get_next_line.h"
 
-char	*join_and_free(char *temp, char *readen, char *str)
+char	*read_and_join(int fd, char *str, char *readen, ssize_t *bytes_read)
 {
+	char	*temp;
+
+	*bytes_read = read(fd, readen, BUFFER_SIZE);
+	if (*bytes_read <= 0)
+		return (str);
+	readen[*bytes_read] = '\0';
+	if (!str)
+		return (ft_strdup(readen));
 	temp = str;
 	str = ft_strjoin(temp, readen);
 	free(temp);
 	return (str);
 }
 
-char	*read_line(int fd)
+char	*read_line(int fd, int *error)
 {
 	char	*str;
-	char	*temp;
 	char	*readen;
 	ssize_t	bytes_read;
 
 	str = NULL;
+	*error = 0;
 	bytes_read = 1;
-	temp = NULL;
 	readen = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!readen)
 		return (NULL);
 	while (!ft_strchr(str, '\n') && bytes_read > 0)
+		str = read_and_join(fd, str, readen, &bytes_read);
+	if (bytes_read < 0)
 	{
-		bytes_read = read(fd, readen, BUFFER_SIZE);
-		if (bytes_read <= 0)
-			break ;
-		readen[bytes_read] = '\0';
-		if (!str)
-			str = ft_strdup(readen);
-		else
-			str = join_and_free(temp, readen, str);
+		*error = 1;
+		free(str);
+		str = NULL;
 	}
 	free(readen);
 	return (str);
@@ -72,16 +76,10 @@ char	*return_line(char **str, char *line_read)
 	return (backup);
 }
 
-char	*get_next_line(int fd)
+char	*merge_backup(char *backup, char *line_read)
 {
-	static char	*backup;
-	char		*str;
-	char		*temp;
-	char		*line_read;
+	char	*temp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	line_read = read_line(fd);
 	if (backup && line_read)
 	{
 		temp = backup;
@@ -91,6 +89,26 @@ char	*get_next_line(int fd)
 	}
 	else if (line_read)
 		backup = line_read;
+	return (backup);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*backup;
+	char		*str;
+	char		*line_read;
+	int			error;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	line_read = read_line(fd, &error);
+	if (error)
+	{
+		free(backup);
+		backup = NULL;
+		return (NULL);
+	}
+	backup = merge_backup(backup, line_read);
 	if (!backup || ft_strlen(backup) == 0)
 	{
 		free(backup);
